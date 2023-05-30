@@ -7,9 +7,10 @@ public class PlayerController : MonoBehaviour
 {
 
     Rigidbody rb;
+
     public float jumpForce;
     bool canJump;
-
+    
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -24,10 +25,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0) && canJump)
-        {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -52,5 +50,23 @@ public class PlayerController : MonoBehaviour
         {
             SceneManager.LoadScene("Game");
         }
+    }
+
+    public void PlayerJump()
+    {
+        if (canJump)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+       
+    }
+
+    public void MoveLeft()
+    {
+        transform.position = new Vector3(-4, 6, 2);
+    }
+    public void MoveRight()
+    {
+        transform.position = new Vector3(0, 2, 0);
     }
 }
