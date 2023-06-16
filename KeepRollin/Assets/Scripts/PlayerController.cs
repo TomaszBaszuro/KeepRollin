@@ -10,16 +10,18 @@ public class PlayerController : MonoBehaviour
 
     public float jumpForce;
     bool canJump;
-    
+    bool playerOnRightGround = true;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -38,7 +40,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if(collision.gameObject.tag == "Ground")
+        if (collision.gameObject.tag == "Ground")
         {
             canJump = false;
         }
@@ -46,7 +48,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Obstacle")
+        if (other.gameObject.tag == "Obstacle")
         {
             SceneManager.LoadScene("Game");
         }
@@ -58,15 +60,24 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
-       
+
     }
 
     public void MoveLeft()
     {
-        transform.position = new Vector3(-4, 6, 2);
+        if (playerOnRightGround && canJump)
+        {
+            transform.position = new Vector3(-4, 6, 2);
+            playerOnRightGround = false;
+        }
+
     }
     public void MoveRight()
     {
-        transform.position = new Vector3(0, 2, 0);
+        if (!playerOnRightGround && canJump)
+        {
+            transform.position = new Vector3(0, 2, 0);
+            playerOnRightGround = true;
+        }
     }
 }
