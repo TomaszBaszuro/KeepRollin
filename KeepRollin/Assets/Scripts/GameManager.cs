@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +15,8 @@ public class GameManager : MonoBehaviour
     public Transform spawnPointFlying;
     public Transform spawnPointFlyingUpper;
 
-    int score = 0;
+    public TextMeshProUGUI timerText;
+    float currentTime = 0;
 
 
     // Start is called before the first frame update
@@ -26,7 +28,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        currentTime += Time.deltaTime;
+        timerText.text = (((Mathf.Floor(currentTime / 60f)) % 60).ToString("00")) + ":"
+            + (Mathf.Floor(currentTime % 60f).ToString("00")) + ":" + ((Mathf.Floor(currentTime * 1000f) % 60).ToString("00"));
     }
 
     IEnumerator SpwnObstacles()
@@ -34,7 +38,7 @@ public class GameManager : MonoBehaviour
         while (true)
         {
             
-            float waitTime = Random.Range(0.5f, 4f);
+            float waitTime = Random.Range(0.5f, 3f);
             
             yield return new WaitForSeconds(waitTime);
 
@@ -47,7 +51,7 @@ public class GameManager : MonoBehaviour
         while (true)
         {
 
-            float waitTime = Random.Range(0.5f, 4f);
+            float waitTime = Random.Range(0.5f, 3f);
 
             yield return new WaitForSeconds(waitTime);
 
@@ -61,7 +65,7 @@ public class GameManager : MonoBehaviour
         {
             float drawSpawPoint = Random.Range(0f, 2f);
 
-            yield return new WaitForSeconds(Random.Range(1f, 10f));
+            yield return new WaitForSeconds(Random.Range(3f, 10f));
 
             if (drawSpawPoint > 1)
                 Instantiate(obstacleFlying, spawnPointFlying.position, Quaternion.identity);

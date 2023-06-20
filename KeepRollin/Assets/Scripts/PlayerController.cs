@@ -21,13 +21,14 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        //transform.Translate(Vector3.up * speed * Time.deltaTime);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        transform.Rotate(100 * Time.deltaTime, 0f, 0f, Space.Self);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -50,7 +51,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Obstacle")
         {
-            SceneManager.LoadScene("Game");
+            
+            SceneManager.LoadScene("Menu");
         }
     }
 
