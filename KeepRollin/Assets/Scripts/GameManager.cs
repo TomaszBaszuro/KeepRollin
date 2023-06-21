@@ -18,10 +18,13 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI timerText;
     float currentTime = 0;
 
+    public GameOver GameOverScreen;
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1;
         GameStart();
     }
 
@@ -31,6 +34,11 @@ public class GameManager : MonoBehaviour
         currentTime += Time.deltaTime;
         timerText.text = (((Mathf.Floor(currentTime / 60f)) % 60).ToString("00")) + ":"
             + (Mathf.Floor(currentTime % 60f).ToString("00")) + ":" + ((Mathf.Floor(currentTime * 1000f) % 60).ToString("00"));
+        if (Time.timeScale == 0 && currentTime > 0)
+        {
+            CheckHighScore();
+            GameOver();
+        }
     }
 
     IEnumerator SpwnObstacles()
@@ -73,10 +81,24 @@ public class GameManager : MonoBehaviour
                 Instantiate(obstacleFlying, spawnPointFlyingUpper.position, Quaternion.identity);
         }
     }
+
+    void CheckHighScore()
+    {
+        if(currentTime > PlayerPrefs.GetFloat("HighScore", 0))
+        {
+            PlayerPrefs.SetFloat("HighScore", currentTime);
+        }
+    }
+
     public void GameStart()
     {
         StartCoroutine(SpwnObstacles());
         StartCoroutine(SpwnObstaclesUpper());
         StartCoroutine(SpwnObstaclesFlying());
+    }
+
+   public void GameOver()
+    {
+        GameOverScreen.Setup(currentTime);
     }
 }

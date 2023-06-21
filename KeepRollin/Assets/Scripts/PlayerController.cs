@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-
     Rigidbody rb;
+    GameManager GM;
 
     public float jumpForce;
     bool canJump;
@@ -51,8 +51,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Obstacle")
         {
-            
-            SceneManager.LoadScene("Menu");
+            Time.timeScale = 0;
         }
     }
 
